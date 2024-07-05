@@ -10,69 +10,58 @@
  */
 class Solution {
     public int[] nodesBetweenCriticalPoints(ListNode head) {
-        int[] result=new int[2];
-        ListNode curr=head;
-        List<Integer> criticalIndex=new ArrayList<>();
-        List<ListNode> nodes=new ArrayList<>();
-        while(curr!=null){
-            nodes.add(curr);
-            curr=curr.next;
-        }
-        for (int i=1;i<nodes.size()-1;i++){
-            if((nodes.get(i).val<nodes.get(i-1).val && nodes.get(i).val<nodes.get(i+1).val) || (nodes.get(i).val>nodes.get(i-1).val && nodes.get(i).val>nodes.get(i+1).val)){
-                criticalIndex.add(i);
-                if (criticalIndex.size()==2){
-                    result[0]=Math.abs(criticalIndex.get(0)-criticalIndex.get(1));
+        ListNode prev=head;
+       ListNode curr=head.next;
+
+       int first_index=-1;
+       int last_index=-1;
+
+       int index=1;
+
+       int prev_index=-1;
+
+       int min_dist=Integer.MAX_VALUE;
+
+       while(curr.next!=null){
+
+        if(prev.val>curr.val && curr.val<curr.next.val   || prev.val<curr.val && curr.val>curr.next.val){
+
+            if(prev_index==-1){
+                first_index=index;
+                prev_index=index;
+            }
+            else{
+                if(min_dist>index-prev_index){
+                    min_dist=index-prev_index;
                 }
+
+                prev_index=index;
             }
-        }
-        if (criticalIndex.size()<2){
-            return new int[]{-1,-1};
-        }
-        if (criticalIndex.size()==2){
-            result[1]=result[0];
-            return result;
-        }
-        
-        return getMaxMinDifference(criticalIndex);
-    }
 
-    public static int[] getMaxMinDifference(List<Integer> nums) {
-        if (nums.size() < 2) {
-            throw new IllegalArgumentException("La liste doit contenir au moins deux éléments");
         }
 
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        Set<Integer> uniqueNums = new HashSet<>();
+        index++;
 
-        for (int num : nums) {
-            if (num < min) {
-                min = num;
-            }
-            if (num > max) {
-                max = num;
-            }
-            uniqueNums.add(num);
-        }
 
-        if (uniqueNums.size() == 1) {
-            return new int[]{0, 0}; // Tous les éléments sont identiques
-        }
+        curr=curr.next;
+        prev=prev.next;
 
-        int minDiff = Integer.MAX_VALUE;
-        int previous = Integer.MAX_VALUE;
+       }
 
-        for (int num : uniqueNums) {
-            if (previous != Integer.MAX_VALUE) {
-                int diff = Math.abs(num - previous);
-                if (diff < minDiff) {
-                    minDiff = diff;
-                }
-            }
-            previous = num;
-        }
+       last_index=prev_index;
 
-        return new int[]{minDiff,max - min };
+       int max_dist=-1;
+
+      
+
+       if(min_dist==Integer.MAX_VALUE ){
+         int[]arr={-1,-1};
+         return arr;
+       }
+       else{
+        max_dist=last_index-first_index;
+        int []arr={min_dist,max_dist};
+        return arr;
+       }
     }
 }
