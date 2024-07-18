@@ -14,10 +14,11 @@
  * }
  */
 class Solution {
+    int verificatuer=Integer.MIN_VALUE;
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, null, null);
+        return isValidBST(root, null,null);
     }
-
+    
     private boolean isValidBST(TreeNode node, Integer lower, Integer upper) {
 
         if (node == null) {
