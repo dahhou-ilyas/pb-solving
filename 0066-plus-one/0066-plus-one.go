@@ -1,17 +1,19 @@
 func plusOne(digits []int) []int {
     n := len(digits)
-    // Start from the end of the digits array
-    for i := n - 1; i >= 0; i-- {
-        if digits[i] < 9 {
-            // If the current digit is less than 9, simply increment it and return the result
-            digits[i]++
-            return digits
+    sum:=digits[len(digits)-1]+1
+
+    digits[len(digits)-1]= sum % 10
+    accu := sum / 10
+    for i:=n-2;i>=0;i--{
+        if(accu == 0){
+            break
         }
-        // Set the current digit to 0 and continue to the next digit
-        digits[i] = 0
+        sum=digits[i]+accu
+        digits[i]=(sum)%10
+        accu=(sum) / 10
     }
-    // If all digits were 9, we need to add an extra digit at the beginning
-    result := make([]int, n+1)
-    result[0] = 1
-    return result
+    if(accu != 0){
+        digits = append([]int{accu}, digits...)
+    }
+    return digits
 }
