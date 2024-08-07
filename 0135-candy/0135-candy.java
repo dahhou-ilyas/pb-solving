@@ -20,7 +20,6 @@ class Solution {
         }
         int sum=0;
         for(int i=0;i<ratings.length;i++){
-            System.out.println("candyv2 = "+candyv2[i]+" candyv1 = "+candyv1[i] );
             sum=sum+Math.max(candyv2[i],candyv1[i]);
         }
         return sum;   
